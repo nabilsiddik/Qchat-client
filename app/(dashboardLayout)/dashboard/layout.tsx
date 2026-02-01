@@ -1,0 +1,31 @@
+export const dynamic = "force-dynamic";
+import { AppSidebar } from "@/components/app-sidebar";
+import DashboardNavbar from "@/components/modules/dashboard/dashboard-navbar/DashbaordNavbar";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+// import getLogedInUser from "@/services/user/userManagement";
+// import { IUserInfo } from "@/types/user.interface";
+
+const CommonDashboardLayout = async ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
+  // const userInfo = (await getLogedInUser()) as IUserInfo;
+  const userInfo = [] as any
+  return (
+    <SidebarProvider>
+      {/* sidebar  */}
+      <AppSidebar userInfo={userInfo} />
+      <SidebarInset>
+        {/* daahsboard navbar  */}
+        <DashboardNavbar />
+        {/* main dynamic content  */}
+        <div className="p-3 md:p-10">
+          {children}
+        </div>
+      </SidebarInset>
+    </SidebarProvider>
+  );
+};
+
+export default CommonDashboardLayout;

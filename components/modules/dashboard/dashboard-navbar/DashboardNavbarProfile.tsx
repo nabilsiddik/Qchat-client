@@ -1,0 +1,93 @@
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import Link from "next/link";
+import Image from "next/image";
+import { User } from "lucide-react";
+
+interface IDropdownMenu {
+  title: string;
+  link: string;
+  icon: React.ReactElement;
+}
+
+const DashboardNavbarProfile = async () => {
+//   const user = (await getLogedInUser()) as IUserInfo;
+  const user: any = null
+
+  const dropdownMenuList = [
+    {
+      title: "Profile",
+      link:
+        user?.role === "ADMIN"
+          ? "/admin/dashboard/profile"
+          : "/user/dashboard/profile",
+      icon: <User/>,
+    },
+  ];
+
+  return (
+    <div className="flex items-center gap-5">
+      <div>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Image
+              src={
+                user?.profileImage || "https://i.ibb.co.com/2YHLD9xh/user.png"
+              }
+              className="rounded-full cursor-pointer"
+              width={30}
+              height={30}
+              alt="dashboard profile photo"
+            />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-56" align="start">
+            <DropdownMenuLabel className="text-lg">
+              My Account
+            </DropdownMenuLabel>
+            <DropdownMenuGroup>
+              <DropdownMenuItem className="flex flex-col text-left items-start gap-0">
+                <h4 className="font-bold text-lg">Hi, {user?.firstName} {user?.lastName}</h4>
+                <p className="text-md font-medium">{user?.email}</p>
+              </DropdownMenuItem>
+            </DropdownMenuGroup>
+            <DropdownMenuSeparator />
+            <DropdownMenuGroup>
+              {dropdownMenuList.length > 0 &&
+                dropdownMenuList.map((item: IDropdownMenu, index: number) => {
+                  return (
+                    <Link
+                      href={item?.link}
+                      key={index}
+                      className="cursor-pointer"
+                    >
+                      <DropdownMenuItem className="cursor-pointer">
+                        {item?.title}
+                        <DropdownMenuShortcut>
+                          {item?.icon}
+                        </DropdownMenuShortcut>
+                      </DropdownMenuItem>
+                    </Link>
+                  );
+                })}
+            </DropdownMenuGroup>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem className="bg-transparent">
+              <Button>Logout</Button>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+    </div>
+  );
+};
+
+export default DashboardNavbarProfile;
