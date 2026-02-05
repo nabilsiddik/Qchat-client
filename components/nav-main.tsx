@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/sidebar";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { JSX } from "react";
+import { JSX, useState } from "react";
 
 interface INavItems {
   title: string;
@@ -47,6 +47,10 @@ export function NavMain({
 }: NavMainProps) {
   const pathName = usePathname();
   let navItems: INavItems[] | null = null;
+
+  // menu active state 
+  const [activeMenu, setActiveMenu] = useState<string>('overview')
+  const [activeSubmenu, setActiveSubmenu] = useState<string>('')
 
   if (userInfo?.role === "ADMIN") {
     navItems = adminNavItems;
@@ -77,8 +81,9 @@ export function NavMain({
 
                     <CollapsibleTrigger asChild>
                       <SidebarMenuButton
+                        onClick={() => setActiveMenu(item?.title)}
                         item={item}
-                        className={`cursor-pointer font-medium text-gray-700 text-md py-6 hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:text-white transition-all duration-100 ease-in ${item?.isActive && 'bg-gradient-to-r from-primary to-secondary text-white hover:text-white'}`}
+                        className={`cursor-pointer font-medium text-gray-700 text-md py-6 hover:bg-linear-to-r hover:from-primary hover:to-secondary hover:text-white transition-all duration-100 ease-in ${item?.title.toLowerCase() === activeMenu.toLowerCase() && 'bg-linear-to-r from-primary to-secondary text-white hover:text-white'}`}
                         tooltip={item.title}
                       >
                         <span>{item?.icon}</span>
@@ -91,8 +96,9 @@ export function NavMain({
 
                     <Link href={item?.url ? item?.url : ''}>
                       <SidebarMenuButton
+                        onClick={() => setActiveMenu(item?.title)}
                         item={item}
-                        className={`cursor-pointer font-medium text-gray-700 text-md py-6 hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:text-white transition-all duration-100 ease-in ${item?.isActive && 'bg-gradient-to-r from-primary to-secondary text-white hover:text-white'}`}
+                        className={`cursor-pointer font-medium text-gray-700 text-md py-6 hover:bg-linear-to-r hover:from-primary hover:to-secondary hover:text-white transition-all duration-100 ease-in ${item?.title.toLowerCase() === activeMenu.toLowerCase() && 'bg-linear-to-r from-primary to-secondary text-white hover:text-white'}`}
                         tooltip={item.title}
                       >
                         <span>{item?.icon}</span>
@@ -110,16 +116,20 @@ export function NavMain({
                     <SidebarMenuSub>
                       {item.items?.map((subItem) => (
                         <SidebarMenuSubItem
+                          onClick={() => {
+                            setActiveMenu(item?.title)
+                            setActiveSubmenu(subItem?.title)
+                          }}
                           id="sidebarMenuSubItem"
                           key={subItem.title}
                         >
                           <SidebarMenuSubButton asChild>
                             <Link
-                              className={`${subItem.url === pathName && "bg-gray-300"
+                              className={`${item?.title.toLowerCase() === activeMenu.toLowerCase() && subItem?.title.toLowerCase() === activeSubmenu.toLowerCase() && "bg-linear-to-r from-primary to-secondary text-white hover:text-white"
                                 } rounded-md py-5 px-3 font-medium`}
                               href={subItem.url}
                             >
-                              <span className="font-medium text-lg text-gray-700">{subItem.title}</span>
+                              <span className="font-medium text-lg">{subItem.title}</span>
                             </Link>
                           </SidebarMenuSubButton>
                         </SidebarMenuSubItem>

@@ -111,17 +111,17 @@ const data = {
       items: [
         {
           title: "Profile",
-          url: "/user/dashboard/profile",
+          url: "/dashboard/user/profile",
           icon: <User2 />,
         },
         {
           title: "Help",
-          url: "/user/dashboard/profile",
+          url: "/dashboard/user/help",
           icon: <User2 />,
         },
         {
           title: "Contact",
-          url: "/user/dashboard/profile",
+          url: "/dashboard/user/contact",
           icon: <User2 />,
         },
       ],
