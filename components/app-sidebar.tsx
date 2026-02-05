@@ -96,12 +96,14 @@ const data = {
       title: "Agent",
       icon: <Bot size={30} />,
       isActive: false,
+      url: "/dashboard/user/agent",
       items: [],
     },
     {
       title: "Feedback",
       icon: <MessageSquareQuote size={30} />,
       isActive: false,
+      url: "/dashboard/user/feedback",
       items: [],
     },
     {
